@@ -5,7 +5,9 @@ module.exports = {
     ignored: /node_modules/
   },
   output: {
-    filename: 'dist.js'
+    filename     : 'dist.js',
+    library      : 'Cube',
+    libraryTarget: 'umd'
   },
   module: {
     rules: [
