@@ -1,0 +1,14 @@
+.Cube[react-cube-nav] {
+  position: relative;
+}
+
+.Layer[react-cube-nav] {
+
+}
+
+.Face[react-cube-nav] {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  transform: translate(var(--Face-tx), var(--Face-ty));
+}
