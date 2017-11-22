@@ -7,7 +7,9 @@ const Layer$ = css({
 , className  : 'Layer'
 , displayName: 'Layer'
 }, {
-  $: (props, $) => $.attrs.set('react-cube-nav', '')
+  $     : (props, $) => $.attrs.set('react-cube-nav', '')
+, LayerX: (props) => props.coords.x
+, LayerY: (props) => props.coords.y
 })
 
 class Layer extends Component {
@@ -16,7 +18,10 @@ class Layer extends Component {
   }
 
   render() {
-    return <Layer$ z={this.props.z}>{this.props.children}</Layer$>
+    let coords = this.props.coords
+    console.log(coords);
+    coords.y = -1
+    return <Layer$ z={this.props.z} coords={coords}>{this.props.children}</Layer$>
   }
 }
 

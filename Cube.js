@@ -14,9 +14,13 @@ class Cube extends Component {
   constructor(props) {
     super(props)
 
+    this.state = { x: 0, y: 0, z: 0 }
+  }
+
+  layers() {
     let layers = new Map
 
-    React.Children.forEach(props.children, Face => {
+    React.Children.forEach(this.props.children, Face => {
       if (Face.type.name !== 'Face') return
 
       const z = Face.props.z
@@ -27,16 +31,14 @@ class Cube extends Component {
       layers.set(z, faces)
     })
 
-    this.state = {
-      layers: Array.from(layers, ([key, val]) => [key, val])
-    }
+    return Array.from(layers, ([key, val]) => [key, val])
   }
 
   render() {
     return (
       <Cube$>
-        {this.state.layers.map((layer, i) =>
-          <Layer z={layer[0]} key={i}>
+        {this.layers().map((layer, i) =>
+          <Layer key={i} z={layer[0]} coords={this.state}>
             {layer[1].map((Face, j) =>
               React.cloneElement(Face, { key: j })
             )}

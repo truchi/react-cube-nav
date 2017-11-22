@@ -7,9 +7,9 @@ const Face$ = css({
 , className  : 'Face'
 , displayName: 'Face'
 }, {
-  $     : (props, $) => $.attrs.set('react-cube-nav', '')
-, FaceTx: (props) => `${props.x * 100}vw`
-, FaceTy: (props) => `${props.y * 100}vh`
+  $    : (props, $) => $.attrs.set('react-cube-nav', '')
+, FaceX: (props) => props.x
+, FaceY: (props) => props.y
 })
 
 class Face extends Component {
