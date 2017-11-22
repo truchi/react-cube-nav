@@ -89,8 +89,16 @@ class Cube extends Component {
   }
 
   getAisle({ x, y }) {
-    let a = this.layers.map(layer => layer[1].filter(Face => +Face.props.x === +x && +Face.props.y === +y))
-    let b = Array.prototype.concat.apply([], a)
+    return  Array.prototype.concat.apply(
+      []
+    , this.layers
+        .map(layer => layer[1]
+          .filter(Face =>
+               +Face.props.x === +x
+            && +Face.props.y === +y
+          )
+        )
+    )
   }
 
   getRow({ y, z }) {
