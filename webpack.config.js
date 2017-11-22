@@ -1,3 +1,5 @@
+const PeerDepsExternalsPlugin = require('peer-deps-externals-webpack-plugin');
+
 module.exports = {
   entry: './main.js',
   watch: true,
@@ -9,6 +11,9 @@ module.exports = {
     library      : 'Cube',
     libraryTarget: 'umd'
   },
+  plugins: [
+    new PeerDepsExternalsPlugin(),
+  ],
   module: {
     rules: [
       {
