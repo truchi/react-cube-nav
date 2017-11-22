@@ -18,13 +18,16 @@ class Face extends Component {
   }
 
   render() {
+    const move = this.props.move
+
     return (
       <Face$
         x={this.props.x}
         y={this.props.y}
-        move={this.props.move}
       >
-        {this.props.children}
+        {React.Children.map(this.props.children, child =>
+          React.cloneElement(child, { move })
+        )}
       </Face$>
     )
   }

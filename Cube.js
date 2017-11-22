@@ -128,12 +128,14 @@ class Cube extends Component {
   }
 
   render() {
+    const move = this.move
+
     return (
       <Cube$>
         {this.layers.map((layer, i) =>
           <Layer key={i} z={layer[0]} coords={this.state}>
             {layer[1].map((Face, j) =>
-              React.cloneElement(Face, { key: j, move: this.move })
+              React.cloneElement(Face, { key: j, move })
             )}
           </Layer>
         )}
