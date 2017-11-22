@@ -18,7 +18,15 @@ class Face extends Component {
   }
 
   render() {
-    return <Face$ x={this.props.x} y={this.props.y}>{this.props.children}</Face$>
+    return (
+      <Face$
+        x={this.props.x}
+        y={this.props.y}
+        move={this.props.move}
+      >
+        {this.props.children}
+      </Face$>
+    )
   }
 }
 

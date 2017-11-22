@@ -1,17 +1,20 @@
 .Cube[react-cube-nav] {
   position: absolute;
-  width : 100vw;
-  height: 100vh;
+  width   : 100vw;
+  height  : 100vh;
   overflow: hidden;
 }
 
 .Layer[react-cube-nav] {
+  opacity  : var(--Layer-opacity, 0);
   transform: translate(
     calc(var(--Layer-x, 0) * -100vw)
   , calc(var(--Layer-y, 0) * -100vh)
   );
 
-  transition: transform .3s ease;
+  transition:
+    opacity   .3s ease
+  , transform .3s ease;
 }
 
 .Face[react-cube-nav] {
