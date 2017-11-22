@@ -1,5 +1,14 @@
 import React, { Component } from 'react'
 import Layer from './Layer'
+import css from 'react-css-vars'
+
+const Cube$ = css({
+  tag        : 'div'
+, className  : 'Cube'
+, displayName: 'Cube'
+}, {
+  $: (props, $) => $.attrs.set('react-cube-nav', '')
+})
 
 class Cube extends Component {
   constructor(props) {
@@ -10,7 +19,7 @@ class Cube extends Component {
     React.Children.forEach(props.children, Face => {
       if (Face.type.name !== 'Face') return
 
-      let z = Face.props.z
+      const z = Face.props.z
       if (!layers.has(z)) layers.set(z, [])
 
       let faces = layers.get(z) || []
@@ -25,7 +34,7 @@ class Cube extends Component {
 
   render() {
     return (
-      <div className="Cube" react-cube-nav="">
+      <Cube$>
         {this.state.layers.map((layer, i) =>
           <Layer z={layer[0]} key={i}>
             {layer[1].map((Face, j) =>
@@ -33,7 +42,7 @@ class Cube extends Component {
             )}
           </Layer>
         )}
-      </div>
+      </Cube$>
     )
   }
 }

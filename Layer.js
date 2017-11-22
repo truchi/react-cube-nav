@@ -1,26 +1,22 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
+import css from 'react-css-vars'
+
+const Layer$ = css({
+  tag        : 'div'
+, className  : 'Layer'
+, displayName: 'Layer'
+}, {
+  $: (props, $) => $.attrs.set('react-cube-nav', '')
+})
 
 class Layer extends Component {
   constructor(props) {
     super(props)
-
-    console.log(props)
-  }
-
-  componentDidMount() {
-    this.postRender()
-  }
-
-  componentDidUpdate() {
-    this.postRender()
-  }
-
-  postRender() {
   }
 
   render() {
-    return <div className="Layer" react-cube-nav="">{this.props.children}</div>
+    return <Layer$ z={this.props.z}>{this.props.children}</Layer$>
   }
 }
 
