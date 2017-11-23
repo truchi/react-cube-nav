@@ -17,14 +17,17 @@ class Cube extends Component {
     super(props)
 
     this.structure = new Structure(this.props.children)
-    this.state     = this.structure.coords
+    this.state     = this.structure.getCoords()
     this.move      = this.move.bind(this)
   }
 
   move(direction) {
-    this.structure.setChildren(this.props.children)
-    this.structure.move(direction)
-    this.setState(this.structure.coords)
+    this.setState(
+      this.structure
+        .setChildren(this.props.children)
+        .move(direction)
+        .getCoords()
+    )
   }
 
   getChildContext() {

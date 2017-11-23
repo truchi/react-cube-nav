@@ -3,29 +3,39 @@ import React from 'react'
 class Structure {
   constructor(children) {
     this.coords = { x: 0, y: 0, z: 0 }
-    this.layers = this.getLayers(children)
+    this.layers = this._getLayers(children)
+  }
+
+  setChildren(children) {
+    this.layers = this._getLayers(children)
+
+    return this
+  }
+
+  getCoords() {
+    return this.coords
   }
 
   move(direction) {
     let fn, axis, by
     switch (direction.toUpperCase()) {
       case 'UP':
-        [fn, axis, by] = [this.getCol, 'y', -1]
+        [fn, axis, by] = [this._getCol, 'y', -1]
         break;
       case 'DOWN':
-        [fn, axis, by] = [this.getCol, 'y', 1]
+        [fn, axis, by] = [this._getCol, 'y', 1]
         break;
       case 'LEFT':
-        [fn, axis, by] = [this.getRow, 'x', -1]
+        [fn, axis, by] = [this._getRow, 'x', -1]
         break;
       case 'RIGHT':
-        [fn, axis, by] = [this.getRow, 'x', 1]
+        [fn, axis, by] = [this._getRow, 'x', 1]
         break;
       case 'IN':
-        [fn, axis, by] = [this.getAisle, 'z', -1]
+        [fn, axis, by] = [this._getAisle, 'z', -1]
         break;
       case 'OUT':
-        [fn, axis, by] = [this.getAisle, 'z', 1]
+        [fn, axis, by] = [this._getAisle, 'z', 1]
         break;
     }
 
@@ -33,8 +43,13 @@ class Structure {
     const list  = faces.map(Face => +Face.props[axis])
 
     this.coords[axis] = +faces[
-      this._mod(list.indexOf(+this.coords[axis]) + by, list.length)
+      this._mod(
+        list.indexOf(+this.coords[axis]) + by
+      , list.length
+      )
     ].props[axis]
+
+    return this
   }
 
   map(cb) {
@@ -43,18 +58,14 @@ class Structure {
       .map(z => cb(this.layers[z], z))
   }
 
-  layerMap(layer) {
+  _layerMap(layer) {
     return (cb) => [].map.call(
       layer
     , Face => cb(Face, Face.props.x, Face.props.y)
     )
   }
 
-  setChildren(children) {
-    this.layers = this.getLayers(children)
-  }
-
-  getLayers(children) {
+  _getLayers(children) {
     let layers = {}
 
     React.Children.forEach(children, Face => {
@@ -63,7 +74,7 @@ class Structure {
       const z = Face.props.z
       if (!layers[z]) {
         layers[z]     = []
-        layers[z].map = this.layerMap(layers[z])
+        layers[z].map = this._layerMap(layers[z])
       }
 
       layers[z].push(Face)
@@ -72,7 +83,7 @@ class Structure {
     return layers
   }
 
-  getAisle({ x, y }) {
+  _getAisle({ x, y }) {
     return  Array.prototype.concat.apply(
       []
     , this
@@ -85,11 +96,11 @@ class Structure {
     )
   }
 
-  getRow({ y, z }) {
+  _getRow({ y, z }) {
     return this._get(this.layers[z], { y })
   }
 
-  getCol({ x, z }) {
+  _getCol({ x, z }) {
     return this._get(this.layers[z], { x })
   }
 
