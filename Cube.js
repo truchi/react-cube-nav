@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Layer from './Layer'
 import css from 'react-css-vars'
 
@@ -135,21 +136,29 @@ class Cube extends Component {
     return ((x % n) + n) % n
   }
 
-  render() {
-    const move = this.move
+  getChildContext() {
+    return {
+      move: this.move.bind(this)
+    }
+  }
 
+  render() {
     return (
       <Cube$>
         {this.layers.map((layer, i) =>
           <Layer key={i} z={layer[0]} coords={this.state}>
             {layer[1].map((Face, j) =>
-              React.cloneElement(Face, { key: j, move })
+              React.cloneElement(Face, { key: j })
             )}
           </Layer>
         )}
       </Cube$>
     )
   }
+}
+
+Cube.childContextTypes = {
+  move: PropTypes.func
 }
 
 export default Cube

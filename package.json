@@ -11,7 +11,8 @@
   "license": "ISC",
   "peerDependencies": {
     "react": "16.x",
-    "react-dom": "16.x"
+    "react-dom": "16.x",
+    "prop-types": "15.x"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
