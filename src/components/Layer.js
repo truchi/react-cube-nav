@@ -11,6 +11,7 @@ const Layer$ = css({
 , LayerX      : (props   ) => props.coords.x
 , LayerY      : (props   ) => props.coords.y
 , LayerOpacity: (props   ) => +props.z === +props.coords.z ? 1 : 0
+, LayerScale  : (props   ) => +props.z === +props.coords.z ? 1 : 0
 })
 
 class Layer extends Component {

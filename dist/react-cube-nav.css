@@ -7,10 +7,12 @@
 
 .Layer[react-cube-nav] {
   opacity  : var(--Layer-opacity, 0);
-  transform: translate(
-    calc(var(--Layer-x, 0) * -100vw)
-  , calc(var(--Layer-y, 0) * -100vh)
-  );
+  transform:
+    translate(
+      calc(var(--Layer-x, 0) * -100vw)
+    , calc(var(--Layer-y, 0) * -100vh)
+    )
+    scale(var(--Layer-scale, 1));
 
   transition:
     opacity   .3s ease
