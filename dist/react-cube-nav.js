@@ -100,7 +100,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = ((WrappedComponent, updater) => {
+/* harmony default export */ __webpack_exports__["default"] = (function (WrappedComponent, updater) {
   WrappedComponent = Object(__WEBPACK_IMPORTED_MODULE_2__utils__["e" /* isObject */])(WrappedComponent) ? Object(__WEBPACK_IMPORTED_MODULE_2__utils__["a" /* create */])(WrappedComponent) : WrappedComponent;
 
   if (!Object(__WEBPACK_IMPORTED_MODULE_2__utils__["e" /* isObject */])(updater) && !Object(__WEBPACK_IMPORTED_MODULE_2__utils__["d" /* isFunction */])(updater)) return WrappedComponent;
@@ -281,21 +281,21 @@ var _extends = Object.assign || function (target) {
 
 
 
-const isNull = o => o === null;
+const isNull = function(o) { o === null };
 /* unused harmony export isNull */
 
-const isObject = o => !isNull(o) && typeof o === 'object';
+const isObject = function(o) { !isNull(o) && typeof o === 'object' };
 /* harmony export (immutable) */ __webpack_exports__["e"] = isObject;
 
-const isFunction = o => typeof o === 'function';
+const isFunction = function(o) { typeof o === 'function' };
 /* harmony export (immutable) */ __webpack_exports__["d"] = isFunction;
 
 
-const name = str => {
+const name = function(str) {
   if (str.startsWith('--')) return str;
 
   let isUpper = str[0] === str[0].toUpperCase();
-  str = str.replace(/([A-Z])/g, m => `-${m.toLowerCase()}`).toString();
+  str = str.replace(/([A-Z])/g, function(m) {`-${m.toLowerCase()}`}).toString();
 
   if (isUpper) {
     str = str.substr(1);
@@ -309,15 +309,15 @@ const name = str => {
 /* harmony export (immutable) */ __webpack_exports__["f"] = name;
 
 
-const get = (obj, ...args) => isFunction(obj) ? obj(...args) : obj;
+const get = function(obj, ...args) { isFunction(obj) ? obj(...args) : obj };
 /* harmony export (immutable) */ __webpack_exports__["b"] = get;
 
 
-const getDisplayName = WrappedComponent => WrappedComponent.displayName || WrappedComponent.name || 'Component';
+const getDisplayName = function(WrappedComponent) { WrappedComponent.displayName || WrappedComponent.name || 'Component' };
 /* harmony export (immutable) */ __webpack_exports__["c"] = getDisplayName;
 
 
-const create = arg => {
+const create = function(arg) {
   let { tag, className, displayName } = typeof arg === 'string' ? {
     tag: arg,
     className: '',
