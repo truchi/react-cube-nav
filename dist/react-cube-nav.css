@@ -1,7 +1,7 @@
 /* ----- Variables ----- */
 :root {
-  --transition-duration: .3s;
-  --transition-timing  : ease;
+  --transition-duration: .4s;
+  --transition-timing  : cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /**
@@ -30,8 +30,8 @@
 
   --Layer-tx: calc((var(--Layer-col, 1) - 1) * -100vw);
   --Layer-ty: calc((var(--Layer-row, 1) - 1) * -100vh);
-  --Layer-ox: calc((var(--Layer-col, 1) - 1) * 100vw + 50vw + 1%);
-  --Layer-oy: calc((var(--Layer-row, 1) - 1) * 100vh + 50vh - 1%);
+  --Layer-ox: calc((var(--Layer-col, 1) - 1) * 100vw + 50vw + 3%);
+  --Layer-oy: calc((var(--Layer-row, 1) - 1) * 100vh + 50vh - 3%);
 
   transform-origin:
     var(--Layer-ox)
