@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './App.css'
-import '../node_modules/react-cube-nav/dist/react-cube-nav.css'
+import 'react-cube-nav/dist/react-cube-nav.css'
 import Cube, { Face } from 'react-cube-nav'
 
 class Arrow extends Component {
