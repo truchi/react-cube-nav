@@ -87,76 +87,130 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__(5);
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-/* harmony default export */ __webpack_exports__["default"] = (function (WrappedComponent, updater) {
-  WrappedComponent = Object(__WEBPACK_IMPORTED_MODULE_2__utils__["e" /* isObject */])(WrappedComponent) ? Object(__WEBPACK_IMPORTED_MODULE_2__utils__["a" /* create */])(WrappedComponent) : WrappedComponent;
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
 
-  if (!Object(__WEBPACK_IMPORTED_MODULE_2__utils__["e" /* isObject */])(updater) && !Object(__WEBPACK_IMPORTED_MODULE_2__utils__["d" /* isFunction */])(updater)) return WrappedComponent;
+var _react = __webpack_require__(0);
 
-  let component = class extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-    componentDidMount() {
-      this.postRender();
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(1);
+
+var _utils = __webpack_require__(5);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+exports.default = function (WrappedComponent, updater) {
+  WrappedComponent = (0, _utils.isObject)(WrappedComponent) ? (0, _utils.create)(WrappedComponent) : WrappedComponent;
+
+  if (!(0, _utils.isObject)(updater) && !(0, _utils.isFunction)(updater)) return WrappedComponent;
+
+  var component = function (_Component) {
+    _inherits(component, _Component);
+
+    function component() {
+      _classCallCheck(this, component);
+
+      return _possibleConstructorReturn(this, (component.__proto__ || Object.getPrototypeOf(component)).apply(this, arguments));
     }
 
-    componentDidUpdate() {
-      this.postRender();
-    }
+    _createClass(component, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        this.postRender();
+      }
+    }, {
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate() {
+        this.postRender();
+      }
+    }, {
+      key: 'postRender',
+      value: function postRender() {
+        var $ = (0, _reactDom.findDOMNode)(this);
+        if (!$) return;
 
-    postRender() {
-      const $ = Object(__WEBPACK_IMPORTED_MODULE_1_react_dom__["findDOMNode"])(this);
-      if (!$) return;
+        var _$ = {
+          classes: {
+            add: $.classList.add.bind($.classList),
+            remove: $.classList.remove.bind($.classList),
+            item: $.classList.item.bind($.classList),
+            toggle: $.classList.toggle.bind($.classList),
+            contains: $.classList.contains.bind($.classList),
+            replace: $.classList.replace.bind($.classList)
+          },
+          attrs: {
+            get: $.getAttribute.bind($),
+            set: $.setAttribute.bind($),
+            has: $.hasAttribute.bind($),
+            have: $.hasAttributes.bind($),
+            remove: $.removeAttribute.bind($)
+          }
+        };
 
-      const _$ = {
-        classes: {
-          add: $.classList.add.bind($.classList),
-          remove: $.classList.remove.bind($.classList),
-          item: $.classList.item.bind($.classList),
-          toggle: $.classList.toggle.bind($.classList),
-          contains: $.classList.contains.bind($.classList),
-          replace: $.classList.replace.bind($.classList)
-        },
-        attrs: {
-          get: $.getAttribute.bind($),
-          set: $.setAttribute.bind($),
-          has: $.hasAttribute.bind($),
-          have: $.hasAttributes.bind($),
-          remove: $.removeAttribute.bind($)
-        }
-      };
+        var vars = (0, _utils.get)(updater, this.props, _$);
+        if (!(0, _utils.isObject)(vars)) return;
 
-      const vars = Object(__WEBPACK_IMPORTED_MODULE_2__utils__["b" /* get */])(updater, this.props, _$);
-      if (!Object(__WEBPACK_IMPORTED_MODULE_2__utils__["e" /* isObject */])(vars)) return;
-
-      for (const v in vars) {
-        if (v === '$') {
-          Object(__WEBPACK_IMPORTED_MODULE_2__utils__["b" /* get */])(vars[v], this.props, _$);
-        } else {
-          $.style.setProperty(Object(__WEBPACK_IMPORTED_MODULE_2__utils__["f" /* name */])(v), Object(__WEBPACK_IMPORTED_MODULE_2__utils__["b" /* get */])(vars[v], this.props));
+        for (var v in vars) {
+          if (v === '$') {
+            (0, _utils.get)(vars[v], this.props, _$);
+          } else {
+            $.style.setProperty((0, _utils.name)(v), (0, _utils.get)(vars[v], this.props));
+          }
         }
       }
-    }
+    }, {
+      key: 'render',
+      value: function render() {
+        return _react2.default.createElement(WrappedComponent, this.props);
+      }
+    }]);
 
-    render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(WrappedComponent, this.props);
-    }
-  };
+    return component;
+  }(_react.Component);
 
-  component.displayName = `RCV(${Object(__WEBPACK_IMPORTED_MODULE_2__utils__["c" /* getDisplayName */])(WrappedComponent)})`;
+  component.displayName = 'RCV(' + (0, _utils.getDisplayName)(WrappedComponent) + ')';
 
   return component;
-});
+};
 
 /***/ }),
 /* 3 */
@@ -264,11 +318,18 @@ exports.default = Face;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.create = exports.getDisplayName = exports.get = exports.name = exports.isFunction = exports.isObject = exports.isNull = undefined;
+
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];for (var key in source) {
@@ -279,23 +340,65 @@ var _extends = Object.assign || function (target) {
   }return target;
 };
 
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
 
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
-const isNull = function(o) { o === null };
-/* unused harmony export isNull */
+var _react = __webpack_require__(0);
 
-const isObject = function(o) { !isNull(o) && typeof o === 'object' };
-/* harmony export (immutable) */ __webpack_exports__["e"] = isObject;
+var _react2 = _interopRequireDefault(_react);
 
-const isFunction = function(o) { typeof o === 'function' };
-/* harmony export (immutable) */ __webpack_exports__["d"] = isFunction;
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-const name = function(str) {
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }return call && ((typeof call === "undefined" ? "undefined" : _typeof2(call)) === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
+  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+
+var isNull = exports.isNull = function isNull(o) {
+  return o === null;
+};
+var isObject = exports.isObject = function isObject(o) {
+  return !isNull(o) && (typeof o === 'undefined' ? 'undefined' : _typeof(o)) === 'object';
+};
+var isFunction = exports.isFunction = function isFunction(o) {
+  return typeof o === 'function';
+};
+
+var name = exports.name = function name(str) {
   if (str.startsWith('--')) return str;
 
-  let isUpper = str[0] === str[0].toUpperCase();
-  str = str.replace(/([A-Z])/g, function(m) {`-${m.toLowerCase()}`}).toString();
+  var isUpper = str[0] === str[0].toUpperCase();
+  str = str.replace(/([A-Z])/g, function (m) {
+    return '-' + m.toLowerCase();
+  }).toString();
 
   if (isUpper) {
     str = str.substr(1);
@@ -304,21 +407,23 @@ const name = function(str) {
     str = str.join('');
   }
 
-  return `--${str}`;
+  return '--' + str;
 };
-/* harmony export (immutable) */ __webpack_exports__["f"] = name;
 
+var get = exports.get = function get(obj) {
+  for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
 
-const get = function(obj, ...args) { isFunction(obj) ? obj(...args) : obj };
-/* harmony export (immutable) */ __webpack_exports__["b"] = get;
+  return isFunction(obj) ? obj.apply(undefined, args) : obj;
+};
 
+var getDisplayName = exports.getDisplayName = function getDisplayName(WrappedComponent) {
+  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+};
 
-const getDisplayName = function(WrappedComponent) { WrappedComponent.displayName || WrappedComponent.name || 'Component' };
-/* harmony export (immutable) */ __webpack_exports__["c"] = getDisplayName;
-
-
-const create = function(arg) {
-  let { tag, className, displayName } = typeof arg === 'string' ? {
+var create = exports.create = function create(arg) {
+  var _ref = typeof arg === 'string' ? {
     tag: arg,
     className: '',
     displayName: 'Wrapped'
@@ -326,22 +431,36 @@ const create = function(arg) {
     tag: arg.tag || 'div',
     className: arg.className || '',
     displayName: arg.displayName || arg.className || 'Wrapped'
-  };
+  },
+      tag = _ref.tag,
+      className = _ref.className,
+      displayName = _ref.displayName;
 
-  let component = class extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
-    render() {
-      let Tag = tag;
+  var component = function (_Component) {
+    _inherits(component, _Component);
 
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Tag, _extends({ className: className }, this.props), this.props.children);
+    function component() {
+      _classCallCheck(this, component);
+
+      return _possibleConstructorReturn(this, (component.__proto__ || Object.getPrototypeOf(component)).apply(this, arguments));
     }
-  };
+
+    _createClass(component, [{
+      key: 'render',
+      value: function render() {
+        var Tag = tag;
+
+        return _react2.default.createElement(Tag, _extends({ className: className }, this.props), this.props.children);
+      }
+    }]);
+
+    return component;
+  }(_react.Component);
 
   component.displayName = displayName;
 
   return component;
 };
-/* harmony export (immutable) */ __webpack_exports__["a"] = create;
-
 
 /***/ }),
 /* 6 */
