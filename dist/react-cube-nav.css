@@ -1,3 +1,9 @@
+/* ----- Variables ----- */
+:root {
+  --transition-duration: .3s;
+  --transition-timing  : ease;
+}
+
 /**
  * ================================================================
  *                               CUBE
@@ -32,8 +38,8 @@
     var(--Layer-oy);
 
   transition:
-    opacity   .3s ease
-  , transform .3s ease;
+    opacity   var(--transition-duration) var(--transition-timing)
+  , transform var(--transition-duration) var(--transition-timing);
 }
 
 /* ----- Depth layering ----- */
@@ -73,4 +79,14 @@
   grid-column: var(--Face-col, 1);
   width      : 100vw;
   height     : 100vh;
+
+  opacity       : 0;
+  pointer-events: none;
+
+  transition: opacity var(--transition-duration) var(--transition-timing);
+}
+
+.Face[react-cube-nav].current {
+  opacity       : 1;
+  pointer-events: initial;
 }

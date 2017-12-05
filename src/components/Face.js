@@ -6,22 +6,25 @@ const Face$ = css({
   tag        : 'div'
 , className  : 'Face'
 , displayName: 'Face'
-}, {
-  $      : (props, $) => $.attrs.set('react-cube-nav', '')
-, FaceRow: (props) => props.row
-, FaceCol: (props) => props.col
+}, (props, $) => {
+  $.attrs.set('react-cube-nav', '')
+
+  $.classes.remove('current')
+  ;!!props.current && $.classes.add('current')
+
+  return {
+    FaceRow: (props) => props.row
+  , FaceCol: (props) => props.col
+  }
 })
 
 class Face extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <Face$
         row={this.props.row}
         col={this.props.col}
+        current={this.props.current ? 1 : 0}
       >
         {this.props.children}
       </Face$>

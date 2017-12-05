@@ -34,7 +34,10 @@ class Layer extends Component {
         coords={this.props.coords}
         dir={dir}
       >
-        {this.props.children}
+        {this.props.children.map(Face => React.cloneElement(Face, {
+          current: +Face.props.x === +this.props.coords.x
+                && +Face.props.y === +this.props.coords.y
+        }))}
       </Layer$>
     )
   }
