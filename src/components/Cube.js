@@ -27,16 +27,39 @@ class Cube extends Component {
     }
   }
 
+  mins(cube) {
+    const x = cube.by('x').map(([row, x]) => +x).sort()[0]
+    const y = cube.by('y').map(([row, y]) => +y).sort()[0]
+
+    return { x, y }
+  }
+
   render() {
     return (
       <Cube$>
-        {this.struct.by('z').map(([cube, z]) =>
-          <Layer key={`z:${z}`} z={z} coords={this.state}>
-            {cube.map((Face, x, y, z) => {
-              return React.cloneElement(Face, { key: `x:${x}/y:${y}/z:${z}` })
-            })}
-          </Layer>
-        )}
+        {this.struct.by('z').map(([cube, z]) => {
+          const mins   = this.mins(cube)
+          const coords = Object.assign({}, this.state, {
+            row: this.state.y - mins.y + 1
+          , col: this.state.x - mins.x + 1
+          })
+
+          return (
+            <Layer
+              key={`z:${z}`}
+              z={z}
+              coords={coords}
+            >
+              {cube.map((Face, x, y, z) => {
+                return React.cloneElement(Face, {
+                  key: `x:${x}/y:${y}/z:${z}`
+                  , row: y - mins.y + 1
+                  , col: x - mins.x + 1
+                })
+              })}
+            </Layer>
+          )
+        })}
       </Cube$>
     )
   }

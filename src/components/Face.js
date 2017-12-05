@@ -7,9 +7,9 @@ const Face$ = css({
 , className  : 'Face'
 , displayName: 'Face'
 }, {
-  $    : (props, $) => $.attrs.set('react-cube-nav', '')
-, FaceX: (props) => props.x
-, FaceY: (props) => props.y
+  $      : (props, $) => $.attrs.set('react-cube-nav', '')
+, FaceRow: (props) => props.row
+, FaceCol: (props) => props.col
 })
 
 class Face extends Component {
@@ -20,8 +20,8 @@ class Face extends Component {
   render() {
     return (
       <Face$
-        x={this.props.x}
-        y={this.props.y}
+        row={this.props.row}
+        col={this.props.col}
       >
         {this.props.children}
       </Face$>

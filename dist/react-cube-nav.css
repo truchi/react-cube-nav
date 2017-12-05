@@ -1,17 +1,22 @@
 .Cube[react-cube-nav] {
-  position: absolute;
+  position: relative;
   width   : 100vw;
   height  : 100vh;
   overflow: hidden;
 }
 
 .Layer[react-cube-nav] {
+  position             : absolute;
+  display              : grid;
+  grid-template-columns: 100vw;
+  grid-template-rows   : 100vh;
+
+  --Layer-tx: calc((var(--Layer-col, 1) - 1) * -100vw);
+  --Layer-ty: calc((var(--Layer-row, 1) - 1) * -100vh);
+
   opacity  : var(--Layer-opacity, 0);
   transform:
-    translate(
-      calc(var(--Layer-x, 0) * -100vw)
-    , calc(var(--Layer-y, 0) * -100vh)
-    )
+    translate(var(--Layer-tx), var(--Layer-ty))
     scale(var(--Layer-scale, 1));
 
   transition:
@@ -20,8 +25,8 @@
 }
 
 .Face[react-cube-nav] {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  transform: translate(calc(var(--Face-x) * 100vw), calc(var(--Face-y) * 100vh));
+  grid-row   : var(--Face-row, 1);
+  grid-column: var(--Face-col, 1);
+  width      : 100vw;
+  height     : 100vh;
 }

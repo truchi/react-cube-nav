@@ -8,22 +8,21 @@ const Layer$ = css({
 , displayName: 'Layer'
 }, {
   $           : (props, $) => $.attrs.set('react-cube-nav', '')
-, LayerX      : (props   ) => props.coords.x
-, LayerY      : (props   ) => props.coords.y
-, LayerOpacity: (props   ) => +props.z === +props.coords.z ? 1 : 0
-, LayerScale  : (props   ) => +props.z === +props.coords.z ? 1 : 0
+, LayerRow    : (props   ) => props.coords.row
+, LayerCol    : (props   ) => props.coords.col
+, LayerOpacity: (props   ) => !!props.current ? 1 : 0
+, LayerScale  : (props   ) => !!props.current ? 1 : 0
 })
 
 class Layer extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
+    const current = +this.props.z === +this.props.coords.z
+
     return (
       <Layer$
         z={this.props.z}
         coords={this.props.coords}
+        current={current ? 1 : 0}
       >
         {this.props.children}
       </Layer$>
