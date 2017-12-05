@@ -178,10 +178,6 @@ var _Cube = __webpack_require__(6);
 
 var _Cube2 = _interopRequireDefault(_Cube);
 
-var _tst = __webpack_require__(9);
-
-var _tst2 = _interopRequireDefault(_tst);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Face = _Face2.default;
@@ -222,25 +218,28 @@ var Face$ = (0, _reactCssVars2.default)({
   tag: 'div',
   className: 'Face',
   displayName: 'Face'
-}, {
-  $: function $(props, _$) {
-    return _$.attrs.set('react-cube-nav', '');
-  },
-  FaceX: function FaceX(props) {
-    return props.x;
-  },
-  FaceY: function FaceY(props) {
-    return props.y;
-  }
+}, function (props, $) {
+  $.attrs.set('react-cube-nav', '');
+
+  $.classes.remove('current');!!props.current && $.classes.add('current');
+
+  return {
+    FaceRow: function FaceRow(props) {
+      return props.row;
+    },
+    FaceCol: function FaceCol(props) {
+      return props.col;
+    }
+  };
 });
 
 var Face = function (_Component) {
   _inherits(Face, _Component);
 
-  function Face(props) {
+  function Face() {
     _classCallCheck(this, Face);
 
-    return _possibleConstructorReturn(this, (Face.__proto__ || Object.getPrototypeOf(Face)).call(this, props));
+    return _possibleConstructorReturn(this, (Face.__proto__ || Object.getPrototypeOf(Face)).apply(this, arguments));
   }
 
   _createClass(Face, [{
@@ -249,8 +248,9 @@ var Face = function (_Component) {
       return _react2.default.createElement(
         Face$,
         {
-          x: this.props.x,
-          y: this.props.y
+          row: this.props.row,
+          col: this.props.col,
+          current: this.props.current ? 1 : 0
         },
         this.props.children
       );
@@ -366,7 +366,11 @@ var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Layer = __webpack_require__(8);
+var _Struct = __webpack_require__(8);
+
+var _Struct2 = _interopRequireDefault(_Struct);
+
+var _Layer = __webpack_require__(10);
 
 var _Layer2 = _interopRequireDefault(_Layer);
 
@@ -400,163 +404,38 @@ var Cube = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Cube.__proto__ || Object.getPrototypeOf(Cube)).call(this, props));
 
-    _this.layers = _this.getLayers();
+    _this.struct = new _Struct2.default(_this.props.children);
     _this.state = { x: 0, y: 0, z: 0 };
-    _this.move = _this.move.bind(_this);
     return _this;
   }
 
   _createClass(Cube, [{
-    key: 'getLayers',
-    value: function getLayers() {
-      var layers = new Map();
-
-      _react2.default.Children.forEach(this.props.children, function (Face) {
-        if (Face.type.name !== 'Face') return;
-
-        var z = Face.props.z;
-        if (!layers.has(z)) layers.set(z, []);
-
-        var faces = layers.get(z) || [];
-        faces.push(Face);
-        layers.set(z, faces);
-      });
-
-      return Array.from(layers, function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2),
-            key = _ref2[0],
-            val = _ref2[1];
-
-        return [key, val];
-      });
-    }
-  }, {
-    key: 'move',
-    value: function move(direction) {
-      var coords = this.state;
-
-      var faces = void 0,
-          list = void 0;
-      switch (direction.toUpperCase()) {
-        case 'UP':
-          faces = this.getCol(coords);
-          list = faces.map(function (Face) {
-            return +Face.props.y;
-          });
-          coords.y = +faces[this._mod(list.indexOf(+coords.y) - 1, list.length)].props.y;
-          break;
-        case 'DOWN':
-          faces = this.getCol(coords);
-          list = faces.map(function (Face) {
-            return +Face.props.y;
-          });
-          coords.y = +faces[this._mod(list.indexOf(+coords.y) + 1, list.length)].props.y;
-          break;
-        case 'LEFT':
-          faces = this.getRow(coords);
-          list = faces.map(function (Face) {
-            return +Face.props.x;
-          });
-          coords.x = +faces[this._mod(list.indexOf(+coords.x) - 1, list.length)].props.x;
-          break;
-        case 'RIGHT':
-          faces = this.getRow(coords);
-          list = faces.map(function (Face) {
-            return +Face.props.x;
-          });
-          coords.x = +faces[this._mod(list.indexOf(+coords.x) + 1, list.length)].props.x;
-          break;
-        case 'IN':
-          faces = this.getAisle(coords);
-          list = faces.map(function (Face) {
-            return +Face.props.z;
-          });
-          coords.z = +faces[this._mod(list.indexOf(+coords.z) - 1, list.length)].props.z;
-          break;
-        case 'OUT':
-          faces = this.getAisle(coords);
-          list = faces.map(function (Face) {
-            return +Face.props.z;
-          });
-          coords.z = +faces[this._mod(list.indexOf(+coords.z) + 1, list.length)].props.z;
-          break;
-      }
-
-      this.setState(coords);
-    }
-  }, {
-    key: 'getAisle',
-    value: function getAisle(_ref3) {
-      var x = _ref3.x,
-          y = _ref3.y;
-
-      return Array.prototype.concat.apply([], this.layers.map(function (layer) {
-        return layer[1].filter(function (Face) {
-          return +Face.props.x === +x && +Face.props.y === +y;
-        });
-      }));
-    }
-  }, {
-    key: 'getRow',
-    value: function getRow(_ref4) {
-      var y = _ref4.y,
-          z = _ref4.z;
-
-      return this._getRow(this._getLayer(z), { y: y });
-    }
-  }, {
-    key: 'getCol',
-    value: function getCol(_ref5) {
-      var x = _ref5.x,
-          z = _ref5.z;
-
-      return this._getRow(this._getLayer(z), { x: x });
-    }
-  }, {
-    key: '_getLayer',
-    value: function _getLayer(z) {
-      return this.layers.filter(function (layer) {
-        return +layer[0] === +z;
-      })[0][1];
-    }
-  }, {
-    key: '_getRow',
-    value: function _getRow(layer, _ref6) {
-      var x = _ref6.x,
-          y = _ref6.y;
-
-      var dir = void 0,
-          test = void 0;
-      var filter = function filter(Face) {
-        return +Face.props[dir] === +test;
-      };
-
-      if (typeof x !== 'undefined') {
-        dir = 'x';
-        test = x;
-      } else if (typeof y !== 'undefined') {
-        dir = 'y';
-        test = y;
-      } else {
-        return [];
-      }
-
-      var opp = dir === 'x' ? 'y' : 'x';
-      return layer.filter(filter).sort(function (Face1, Face2) {
-        return Face1.props[opp] - Face2.props[opp];
-      });
-    }
-  }, {
-    key: '_mod',
-    value: function _mod(x, n) {
-      return (x % n + n) % n;
-    }
-  }, {
     key: 'getChildContext',
     value: function getChildContext() {
       return {
-        move: this.move.bind(this)
+        move: this.move.bind(this),
+        has: this.has.bind(this)
       };
+    }
+  }, {
+    key: 'mins',
+    value: function mins(cube) {
+      var x = cube.by('x').map(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2),
+            row = _ref2[0],
+            x = _ref2[1];
+
+        return +x;
+      }).sort()[0];
+      var y = cube.by('y').map(function (_ref3) {
+        var _ref4 = _slicedToArray(_ref3, 2),
+            row = _ref4[0],
+            y = _ref4[1];
+
+        return +y;
+      }).sort()[0];
+
+      return { x: x, y: y };
     }
   }, {
     key: 'render',
@@ -566,16 +445,85 @@ var Cube = function (_Component) {
       return _react2.default.createElement(
         Cube$,
         null,
-        this.layers.map(function (layer, i) {
+        this.struct.by('z').map(function (_ref5) {
+          var _ref6 = _slicedToArray(_ref5, 2),
+              cube = _ref6[0],
+              z = _ref6[1];
+
+          var mins = _this2.mins(cube);
+          var coords = Object.assign({}, _this2.state, {
+            row: _this2.state.y - mins.y + 1,
+            col: _this2.state.x - mins.x + 1
+          });
+
           return _react2.default.createElement(
             _Layer2.default,
-            { key: i, z: layer[0], coords: _this2.state },
-            layer[1].map(function (Face, j) {
-              return _react2.default.cloneElement(Face, { key: j });
+            {
+              key: 'z:' + z,
+              z: z,
+              coords: coords
+            },
+            cube.map(function (Face, x, y, z) {
+              return _react2.default.cloneElement(Face, {
+                key: 'x:' + x + '/y:' + y + '/z:' + z,
+                row: y - mins.y + 1,
+                col: x - mins.x + 1
+              });
             })
           );
         })
       );
+    }
+
+    /**
+     * Examples:
+     * move({ x: 1 })
+     * move({ x: 0, y: 0, z: 0 })
+     * move((coords) => coords)
+     * move('out')
+     */
+
+  }, {
+    key: 'move',
+    value: function move(coords) {
+      coords = this._coords(coords);
+
+      if (this.has(coords)) {
+        this.setState(coords);
+      }
+    }
+  }, {
+    key: 'has',
+    value: function has(coords) {
+      coords = this._coords(coords);
+
+      return !!this.struct.get(coords).length;
+    }
+  }, {
+    key: '_coords',
+    value: function _coords(coords) {
+      if (typeof coords === 'string') {
+        switch (coords.toUpperCase()) {
+          case 'LEFT':
+            coords = { x: this.state.x - 1 };break;
+          case 'RIGHT':
+            coords = { x: this.state.x + 1 };break;
+          case 'UP':
+            coords = { y: this.state.y - 1 };break;
+          case 'DOWN':
+            coords = { y: this.state.y + 1 };break;
+          case 'IN':
+            coords = { z: this.state.z - 1 };break;
+          case 'OUT':
+            coords = { z: this.state.z + 1 };break;
+          default:
+            coords = this.state;
+        }
+      } else if (typeof coords === 'function') {
+        coords = coords(Object.assign({}, this.state));
+      }
+
+      return Object.assign({}, this.state, coords);
     }
   }]);
 
@@ -583,7 +531,8 @@ var Cube = function (_Component) {
 }(_react.Component);
 
 Cube.childContextTypes = {
-  move: _propTypes2.default.func
+  move: _propTypes2.default.func,
+  has: _propTypes2.default.func
 };
 
 exports.default = Cube;
@@ -596,6 +545,116 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_7__;
 
 /***/ }),
 /* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _utils = __webpack_require__(9);
+
+var _utils2 = _interopRequireDefault(_utils);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Struct = function () {
+  function Struct(items) {
+    _classCallCheck(this, Struct);
+
+    this._items = items;
+  }
+
+  _createClass(Struct, [{
+    key: 'get',
+    value: function get() {
+      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { x: 0, y: 0, z: 0 },
+          x = _ref.x,
+          y = _ref.y,
+          z = _ref.z;
+
+      return this._items.filter(function (child) {
+        var condition = true;
+        var checkX = _utils2.default.def(x) && _utils2.default.def(child.props.x);
+        var checkY = _utils2.default.def(y) && _utils2.default.def(child.props.y);
+        var checkZ = _utils2.default.def(z) && _utils2.default.def(child.props.z);
+
+        if (checkX) condition = condition && +child.props.x === +x;
+        if (checkY) condition = condition && +child.props.y === +y;
+        if (checkZ) condition = condition && +child.props.z === +z;
+
+        return condition;
+      });
+    }
+  }, {
+    key: 'by',
+    value: function by() {
+      var direction = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'z';
+
+      return Object.entries(_utils2.default.groupBy(this._items, function (item) {
+        return item.props[direction];
+      })).map(function (_ref2) {
+        var _ref3 = _slicedToArray(_ref2, 2),
+            dir = _ref3[0],
+            items = _ref3[1];
+
+        return [new Struct(items), dir];
+      });
+    }
+  }, {
+    key: 'map',
+    value: function map() {
+      var fn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
+
+      return [].map.call(this._items, function (item) {
+        return fn(item, item.props.x, item.props.y, item.props.z);
+      });
+    }
+  }]);
+
+  return Struct;
+}();
+
+exports.default = Struct;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  groupBy: function groupBy(arr, key) {
+    var isFunc = typeof key === 'function';
+
+    return arr.reduce(function (reduced, item) {
+      var by = isFunc ? key(item) : item[key];
+
+      reduced[by] = reduced[by] || [];
+      reduced[by].push(item);
+
+      return reduced;
+    }, {});
+  },
+  def: function def(o) {
+    return typeof o !== 'undefined';
+  }
+};
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -629,40 +688,51 @@ var Layer$ = (0, _reactCssVars2.default)({
   tag: 'div',
   className: 'Layer',
   displayName: 'Layer'
-}, {
-  $: function $(props, _$) {
-    return _$.attrs.set('react-cube-nav', '');
-  },
-  LayerX: function LayerX(props) {
-    return props.coords.x;
-  },
-  LayerY: function LayerY(props) {
-    return props.coords.y;
-  },
-  LayerOpacity: function LayerOpacity(props) {
-    return +props.z === +props.coords.z ? 1 : 0;
-  }
+}, function (props, $) {
+  $.attrs.set('react-cube-nav', '');
+
+  $.classes.remove('current');
+  $.classes.remove('in');
+  $.classes.remove('out');props.dir === 0 && $.classes.add('current');props.dir > 0 && $.classes.add('out');props.dir < 0 && $.classes.add('in');
+
+  return {
+    LayerRow: function LayerRow(props) {
+      return props.coords.row;
+    },
+    LayerCol: function LayerCol(props) {
+      return props.coords.col;
+    }
+  };
 });
 
 var Layer = function (_Component) {
   _inherits(Layer, _Component);
 
-  function Layer(props) {
+  function Layer() {
     _classCallCheck(this, Layer);
 
-    return _possibleConstructorReturn(this, (Layer.__proto__ || Object.getPrototypeOf(Layer)).call(this, props));
+    return _possibleConstructorReturn(this, (Layer.__proto__ || Object.getPrototypeOf(Layer)).apply(this, arguments));
   }
 
   _createClass(Layer, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
+      var dir = 0;+this.props.z > +this.props.coords.z && (dir = 1);+this.props.z < +this.props.coords.z && (dir = -1);
+
       return _react2.default.createElement(
         Layer$,
         {
           z: this.props.z,
-          coords: this.props.coords
+          coords: this.props.coords,
+          dir: dir
         },
-        this.props.children
+        this.props.children.map(function (Face) {
+          return _react2.default.cloneElement(Face, {
+            current: +Face.props.x === +_this2.props.coords.x && +Face.props.y === +_this2.props.coords.y
+          });
+        })
       );
     }
   }]);
@@ -671,12 +741,6 @@ var Layer = function (_Component) {
 }(_react.Component);
 
 exports.default = Layer;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-throw new Error("Module parse failed: Unexpected token (1:5)\nYou may need an appropriate loader to handle this file type.\n| body {\n|   background: red;\n| }");
 
 /***/ })
 /******/ ]);
