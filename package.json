@@ -1,7 +1,7 @@
 {
   "name": "react-cube-nav",
   "version": "1.0.0",
-  "description": "",
+  "description": "A navigation components library",
   "main": "dist/react-cube-nav.js",
   "scripts": {
     "start": "webpack"
