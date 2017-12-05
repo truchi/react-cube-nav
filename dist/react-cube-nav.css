@@ -1,3 +1,8 @@
+/**
+ * ================================================================
+ *                               CUBE
+ * ================================================================
+ */
 .Cube[react-cube-nav] {
   position: relative;
   width   : 100vw;
@@ -5,6 +10,12 @@
   overflow: hidden;
 }
 
+/**
+ * ================================================================
+ *                               LAYER
+ * ================================================================
+ */
+/* ----- General ----- */
 .Layer[react-cube-nav] {
   position             : absolute;
   display              : grid;
@@ -13,17 +24,50 @@
 
   --Layer-tx: calc((var(--Layer-col, 1) - 1) * -100vw);
   --Layer-ty: calc((var(--Layer-row, 1) - 1) * -100vh);
+  --Layer-ox: calc((var(--Layer-col, 1) - 1) * 100vw + 50vw + 1%);
+  --Layer-oy: calc((var(--Layer-row, 1) - 1) * 100vh + 50vh - 1%);
 
-  opacity  : var(--Layer-opacity, 0);
-  transform:
-    translate(var(--Layer-tx), var(--Layer-ty))
-    scale(var(--Layer-scale, 1));
+  transform-origin:
+    var(--Layer-ox)
+    var(--Layer-oy);
 
   transition:
     opacity   .3s ease
   , transform .3s ease;
 }
 
+/* ----- Depth layering ----- */
+.Layer[react-cube-nav].current {
+  opacity  : 1;
+  transform:
+    translate(var(--Layer-tx), var(--Layer-ty))
+    scale(1);
+}
+
+.Layer[react-cube-nav].in,
+.Layer[react-cube-nav].out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.Layer[react-cube-nav].in {
+  transform:
+    translate(var(--Layer-tx), var(--Layer-ty))
+    scale(.5);
+}
+
+.Layer[react-cube-nav].out {
+  transform:
+    translate(var(--Layer-tx), var(--Layer-ty))
+    scale(2);
+}
+
+
+/**
+ * ================================================================
+ *                               FACE
+ * ================================================================
+ */
 .Face[react-cube-nav] {
   grid-row   : var(--Face-row, 1);
   grid-column: var(--Face-col, 1);

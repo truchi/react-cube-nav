@@ -6,23 +6,33 @@ const Layer$ = css({
   tag        : 'div'
 , className  : 'Layer'
 , displayName: 'Layer'
-}, {
-  $           : (props, $) => $.attrs.set('react-cube-nav', '')
-, LayerRow    : (props   ) => props.coords.row
-, LayerCol    : (props   ) => props.coords.col
-, LayerOpacity: (props   ) => !!props.current ? 1 : 0
-, LayerScale  : (props   ) => !!props.current ? 1 : 0
+}, (props, $) => {
+  $.attrs.set('react-cube-nav', '')
+
+  $.classes.remove('current')
+  $.classes.remove('in')
+  $.classes.remove('out')
+  ;props.dir === 0 && $.classes.add('current')
+  ;props.dir  >  0 && $.classes.add('out')
+  ;props.dir  <  0 && $.classes.add('in')
+
+  return {
+    LayerRow: (props) => props.coords.row
+  , LayerCol: (props) => props.coords.col
+  }
 })
 
 class Layer extends Component {
   render() {
-    const current = +this.props.z === +this.props.coords.z
+    let dir = 0
+    ;+this.props.z > +this.props.coords.z && (dir =  1)
+    ;+this.props.z < +this.props.coords.z && (dir = -1)
 
     return (
       <Layer$
         z={this.props.z}
         coords={this.props.coords}
-        current={current ? 1 : 0}
+        dir={dir}
       >
         {this.props.children}
       </Layer$>
