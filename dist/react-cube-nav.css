@@ -11,8 +11,8 @@
  */
 .Cube[react-cube-nav] {
   position: relative;
-  width   : 100vw;
-  height  : 100vh;
+  width   : 100%;
+  height  : 100%;
   overflow: hidden;
 }
 
@@ -23,15 +23,18 @@
  */
 /* ----- General ----- */
 .Layer[react-cube-nav] {
-  position             : absolute;
-  display              : grid;
-  grid-template-columns: 100vw;
-  grid-template-rows   : 100vh;
+  position: absolute;
+  display : grid;
+  width   : 100%;
+  height  : 100%;
 
-  --Layer-tx: calc((var(--Layer-col, 1) - 1) * -100vw);
-  --Layer-ty: calc((var(--Layer-row, 1) - 1) * -100vh);
-  --Layer-ox: calc((var(--Layer-col, 1) - 1) * 100vw + 50vw + 3%);
-  --Layer-oy: calc((var(--Layer-row, 1) - 1) * 100vh + 50vh - 3%);
+  grid-auto-columns: 100%;
+  grid-auto-rows   : 100%;
+
+  --Layer-tx: calc((var(--Layer-col, 1) - 1) * -100%);
+  --Layer-ty: calc((var(--Layer-row, 1) - 1) * -100%);
+  --Layer-ox: calc((var(--Layer-col, 1) - 1) * 100% + 50% + 3%);
+  --Layer-oy: calc((var(--Layer-row, 1) - 1) * 100% + 50% - 3%);
 
   transform-origin:
     var(--Layer-ox)
@@ -79,8 +82,8 @@
 .Face[react-cube-nav] {
   grid-row   : var(--Face-row, 1);
   grid-column: var(--Face-col, 1);
-  width      : 100vw;
-  height     : 100vh;
+  width      : 100%;
+  height     : 100%;
 
   opacity       : 0;
   pointer-events: none;

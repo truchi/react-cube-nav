@@ -53,8 +53,8 @@ class Cube extends Component {
               {cube.map((Face, x, y, z) => {
                 return React.cloneElement(Face, {
                   key: `x:${x}/y:${y}/z:${z}`
-                  , row: y - mins.y + 1
-                  , col: x - mins.x + 1
+                , row: y - mins.y + 1
+                , col: x - mins.x + 1
                 })
               })}
             </Layer>
