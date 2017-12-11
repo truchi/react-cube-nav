@@ -28,8 +28,11 @@ class Cube extends Component {
   }
 
   mins(cube) {
-    const x = cube.by('x').map(([row, x]) => +x).sort()[0]
-    const y = cube.by('y').map(([row, y]) => +y).sort()[0]
+    const map  = ([row, c]) => +c
+    const sort = (a, b) => a - b
+
+    const x = cube.by('x').map(map).sort(sort)[0]
+    const y = cube.by('y').map(map).sort(sort)[0]
 
     return { x, y }
   }
