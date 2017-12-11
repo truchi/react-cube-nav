@@ -7,7 +7,7 @@ const Layer$ = css({
 , className  : 'Layer'
 , displayName: 'Layer'
 }, (props, $) => {
-  $.attrs.set('react-cube-nav', '')
+  $.attrs.add('react-cube-nav', '')
 
   $.classes.remove('current')
   $.classes.remove('in')

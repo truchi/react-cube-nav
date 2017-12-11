@@ -9,7 +9,7 @@ const Cube$ = css({
 , className  : 'Cube'
 , displayName: 'Cube'
 }, {
-  $: (props, $) => $.attrs.set('react-cube-nav', '')
+  $: (props, $) => $.attrs.add('react-cube-nav', '')
 })
 
 class Cube extends Component {

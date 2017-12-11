@@ -7,7 +7,7 @@ const Face$ = css({
 , className  : 'Face'
 , displayName: 'Face'
 }, (props, $) => {
-  $.attrs.set('react-cube-nav', '')
+  $.attrs.add('react-cube-nav', '')
 
   $.classes.remove('current')
   ;!!props.current && $.classes.add('current')
