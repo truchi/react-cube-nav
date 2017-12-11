@@ -44,6 +44,7 @@
 
 /* ----- Depth layering ----- */
 .Layer[react-cube-nav].current {
+  z-index  : 1;
   opacity  : 1;
   transform:
     translate(var(--Layer-tx), var(--Layer-ty))
@@ -52,7 +53,8 @@
 
 .Layer[react-cube-nav].in,
 .Layer[react-cube-nav].out {
-  opacity: 0;
+  z-index       : 0;
+  opacity       : 0;
   pointer-events: none;
 }
 
