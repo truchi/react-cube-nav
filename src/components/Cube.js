@@ -17,7 +17,9 @@ class Cube extends Component {
     super(props)
 
     this.struct = new Struct(this.props.children)
-    this.state  = { x: 0, y: 0, z: 0 }
+    this.coords = { x: 0, y: 0, z: 0 }
+    this.layers = []
+    this.faces  = []
   }
 
   getChildContext() {
@@ -37,34 +39,60 @@ class Cube extends Component {
     return { x, y }
   }
 
+  componentDidMount() {
+    this._setCoords(this.coords)
+  }
+
   render() {
     return (
       <Cube$>
         {this.struct.by('z').map(([cube, z]) => {
-          const mins   = this.mins(cube)
-          const coords = Object.assign({}, this.state, {
-            row: this.state.y - mins.y + 1
-          , col: this.state.x - mins.x + 1
-          })
+          const mins = this.mins(cube)
 
           return (
             <Layer
               key={`z:${z}`}
-              z={z}
-              coords={coords}
-            >
-              {cube.map((Face, x, y, z) => {
-                return React.cloneElement(Face, {
-                  key: `x:${x}/y:${y}/z:${z}`
-                , row: y - mins.y + 1
-                , col: x - mins.x + 1
-                })
-              })}
-            </Layer>
+              ref={ref => this.layers.push({ z: +z, mins, ref })}
+              >
+                {cube.map((Face, x, y, z) => {
+                  return React.cloneElement(Face, {
+                    key: `x:${x}/y:${y}/z:${z}`
+                  , ref: ref => this.faces.push({
+                      x  : +x
+                    , y  : +y
+                    , row: y - mins.y + 1
+                    , col: x - mins.x + 1
+                    , ref
+                    })
+                  })
+                })}
+              </Layer>
           )
         })}
       </Cube$>
     )
+  }
+
+  _setCoords(coords) {
+    this.coords = coords
+
+    this.layers.forEach(layer => {
+      const row = this.coords.y - layer.mins.y + 1
+      const col = this.coords.x - layer.mins.x + 1
+
+      let dir = 0
+      ;layer.z > this.coords.z && (dir =  1)
+      ;layer.z < this.coords.z && (dir = -1)
+
+      layer.ref.css(dir, row, col)
+    })
+
+    this.faces.forEach(face => {
+      const current = face.x === this.coords.x
+                   && face.y === this.coords.y
+
+      face.ref.css(current, face.row, face.col)
+    })
   }
 
   /**
@@ -78,32 +106,34 @@ class Cube extends Component {
     coords = this._coords(coords)
 
     if (this.has(coords)) {
-      this.setState(coords)
+      this._setCoords(coords)
     }
   }
 
-  has(coords) {
-    coords = this._coords(coords)
+  has(coords, refCoords) {
+    coords = this._coords(coords, refCoords)
 
     return !!this.struct.get(coords).length
   }
 
-  _coords(coords) {
+  _coords(coords, refCoords = this.coords) {
     if (typeof coords === 'string') {
       switch (coords.toUpperCase()) {
-        case 'LEFT' : coords = { x: this.state.x - 1 }; break
-        case 'RIGHT': coords = { x: this.state.x + 1 }; break
-        case 'UP'   : coords = { y: this.state.y - 1 }; break
-        case 'DOWN' : coords = { y: this.state.y + 1 }; break
-        case 'IN'   : coords = { z: this.state.z - 1 }; break
-        case 'OUT'  : coords = { z: this.state.z + 1 }; break
-        default     : coords = this.state
+        case 'LEFT' : coords = { x: refCoords.x - 1 }; break
+        case 'RIGHT': coords = { x: refCoords.x + 1 }; break
+        case 'UP'   : coords = { y: refCoords.y - 1 }; break
+        case 'DOWN' : coords = { y: refCoords.y + 1 }; break
+        case 'IN'   : coords = { z: refCoords.z - 1 }; break
+        case 'OUT'  : coords = { z: refCoords.z + 1 }; break
+        default     : coords = refCoords
       }
-    } else if (typeof coords === 'function') {
-      coords = coords(Object.assign({}, this.state))
-    }
 
-    return Object.assign({}, this.state, coords)
+      return Object.assign({}, this.coords, refCoords, coords)
+    } else if (typeof coords === 'function') {
+      coords = coords(Object.assign({}, this.coords))
+
+      return Object.assign({}, this.coords, coords)
+    }
   }
 }
 

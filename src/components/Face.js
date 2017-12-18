@@ -2,29 +2,33 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import css from 'react-css-vars'
 
+const updater = (props, $, current, row, col) => {
+  $.classes.remove('current')
+  ;current && $.classes.add('current')
+
+  return {
+    FaceRow: row
+  , FaceCol: col
+  }
+}
+
 const Face$ = css({
   tag        : 'div'
 , className  : 'Face'
 , displayName: 'Face'
-}, (props, $) => {
-  $.attrs.add('react-cube-nav', '')
-
-  $.classes.remove('current')
-  ;!!props.current && $.classes.add('current')
-
-  return {
-    FaceRow: (props) => props.row
-  , FaceCol: (props) => props.col
-  }
+}, {
+  $: (props, $) => $.attrs.add('react-cube-nav', '')
 })
 
 class Face extends Component {
+  css(current, row, col) {
+    this.ref.css(updater, current, row, col)
+  }
+
   render() {
     return (
       <Face$
-        row={this.props.row}
-        col={this.props.col}
-        current={this.props.current ? 1 : 0}
+        ref={ref => this.ref = ref}
       >
         {this.props.children}
       </Face$>

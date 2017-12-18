@@ -2,42 +2,39 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import css from 'react-css-vars'
 
+const updater = (props, $, dir, row, col) => {
+  $.classes.remove('current')
+  $.classes.remove('in')
+  $.classes.remove('out')
+  ;dir === 0 && $.classes.add('current')
+  ;dir  >  0 && $.classes.add('out')
+  ;dir  <  0 && $.classes.add('in')
+
+  return {
+    LayerRow: row
+  , LayerCol: col
+  }
+}
+
 const Layer$ = css({
   tag        : 'div'
 , className  : 'Layer'
 , displayName: 'Layer'
-}, (props, $) => {
-  $.attrs.add('react-cube-nav', '')
-
-  $.classes.remove('current')
-  $.classes.remove('in')
-  $.classes.remove('out')
-  ;props.dir === 0 && $.classes.add('current')
-  ;props.dir  >  0 && $.classes.add('out')
-  ;props.dir  <  0 && $.classes.add('in')
-
-  return {
-    LayerRow: (props) => props.coords.row
-  , LayerCol: (props) => props.coords.col
-  }
+}, {
+  $: (props, $) => $.attrs.add('react-cube-nav', '')
 })
 
 class Layer extends Component {
-  render() {
-    let dir = 0
-    ;+this.props.z > +this.props.coords.z && (dir =  1)
-    ;+this.props.z < +this.props.coords.z && (dir = -1)
+  css(dir, row, col) {
+    this.ref.css(updater, dir, row, col)
+  }
 
+  render() {
     return (
       <Layer$
-        z={this.props.z}
-        coords={this.props.coords}
-        dir={dir}
+        ref={ref => this.ref = ref}
       >
-        {this.props.children.map(Face => React.cloneElement(Face, {
-          current: +Face.props.x === +this.props.coords.x
-                && +Face.props.y === +this.props.coords.y
-        }))}
+        {this.props.children}
       </Layer$>
     )
   }
